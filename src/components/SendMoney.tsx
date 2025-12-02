@@ -30,24 +30,23 @@ export const SendMoney = ({ onBack, onComplete }: SendMoneyProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
-      <div className="px-6 py-6 bg-white border-b border-gray-200">
-        <div className="flex items-center gap-4 mb-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col">
+      <div className="px-6 py-6 bg-white border-b border-gray-100 shadow-sm">
+        <div className="flex items-center gap-4 mb-5">
           <button
             onClick={step === 1 ? onBack : () => setStep((step - 1) as 1 | 2 | 3 | 4)}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 active:scale-95 transition-all"
+            className="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900 active:scale-95 transition-all"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
-          <h1 className="text-2xl font-bold text-gray-900">Envoyer de l'argent</h1>
+          <h1 className="text-2xl font-bold text-gray-900 flex-1">Envoyer de l'argent</h1>
         </div>
         <div className="flex gap-2">
           {[1, 2, 3, 4].map((s) => (
             <div
               key={s}
-              className={`h-2 flex-1 rounded-full transition-all ${
-                s <= step ? 'bg-indigo-600' : 'bg-gray-200'
-              }`}
+              className={`h-2.5 flex-1 rounded-full transition-all duration-500 ${s <= step ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-colored' : 'bg-gray-200'
+                }`}
             ></div>
           ))}
         </div>
@@ -105,20 +104,21 @@ interface RecipientStepProps {
 const RecipientStep = ({ contacts, onSelect }: RecipientStepProps) => {
   return (
     <div className="px-6 py-6">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">Sélectionner un destinataire</h2>
+      <h2 className="text-lg font-bold text-gray-900 mb-5">Sélectionner un destinataire</h2>
       <div className="space-y-3">
-        {contacts.map((contact) => (
+        {contacts.map((contact, index) => (
           <button
             key={contact.id}
             onClick={() => onSelect(contact)}
-            className="w-full bg-white rounded-xl p-4 flex items-center gap-4 hover:bg-gray-50 active:scale-95 transition-all"
+            className="stagger-item w-full bg-white rounded-2xl p-5 flex items-center gap-4 hover:shadow-xl hover:-translate-y-1 active:scale-95 transition-all border border-gray-100 hover:border-indigo-200"
+            style={{ animationDelay: `${index * 0.05}s` }}
           >
-            <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold">
+            <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-lg">
               {contact.name[0]}
             </div>
             <div className="flex-1 text-left">
-              <h3 className="font-semibold text-gray-900">{contact.name}</h3>
-              <p className="text-sm text-gray-600">{contact.phone}</p>
+              <h3 className="font-bold text-gray-900 text-base">{contact.name}</h3>
+              <p className="text-sm text-gray-500 font-medium">{contact.phone}</p>
             </div>
           </button>
         ))}
@@ -162,7 +162,7 @@ const AmountStep = ({ amount, onAmountChange, onNext }: AmountStepProps) => {
             <button
               key={key}
               onClick={() => handleNumberClick(key)}
-              className="h-16 bg-white rounded-xl font-semibold text-xl text-gray-900 hover:bg-gray-50 active:scale-95 transition-all"
+              className="h-16 bg-white rounded-2xl font-bold text-xl text-gray-900 hover:bg-gradient-to-br hover:from-indigo-50 hover:to-purple-50 hover:shadow-lg active:scale-95 transition-all border border-gray-100"
             >
               {key === 'del' ? '⌫' : key}
             </button>
@@ -171,7 +171,7 @@ const AmountStep = ({ amount, onAmountChange, onNext }: AmountStepProps) => {
         <button
           onClick={onNext}
           disabled={!amount || parseFloat(amount) === 0}
-          className="w-full bg-indigo-600 text-white py-4 rounded-xl font-semibold text-lg hover:bg-indigo-700 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-2xl font-bold text-lg hover:shadow-colored-lg hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
         >
           Continuer
         </button>
