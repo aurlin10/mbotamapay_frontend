@@ -2,6 +2,8 @@ import { Send, History, Settings, ArrowUpRight, ArrowDownLeft } from 'lucide-rea
 import { User, Transaction } from '../types';
 import { mockTransactions } from '../mocks/data';
 
+import { RippleButton } from './RippleButton';
+
 interface DashboardProps {
   user: User;
   onNavigate: (screen: string) => void;
@@ -11,7 +13,7 @@ export const Dashboard = ({ user, onNavigate }: DashboardProps) => {
   const recentTransactions = mockTransactions.slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-gray-900 dark:to-gray-800 flex flex-col">
       {/* Header with animated gradient */}
       <div className="bg-gradient-animated px-6 pt-12 pb-24 rounded-b-[2.5rem] relative overflow-hidden shadow-colored-lg">
         {/* Decorative elements */}
@@ -52,7 +54,7 @@ export const Dashboard = ({ user, onNavigate }: DashboardProps) => {
 
       {/* Quick Actions */}
       <div className="px-6 -mt-10 mb-6 animate-slide-up">
-        <div className="bg-white rounded-3xl shadow-2xl p-5 grid grid-cols-2 gap-4 border border-gray-100">
+        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-5 grid grid-cols-2 gap-4 border border-gray-100 dark:border-gray-700">
           <QuickAction
             icon={<Send className="w-6 h-6" />}
             label="Envoyer"
@@ -69,10 +71,10 @@ export const Dashboard = ({ user, onNavigate }: DashboardProps) => {
       {/* Recent Transactions */}
       <div className="flex-1 px-6 pb-6">
         <div className="mb-5 flex items-center justify-between animate-fade-in">
-          <h3 className="text-xl font-bold text-gray-900">Transactions récentes</h3>
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white">Transactions récentes</h3>
           <button
             onClick={() => onNavigate('history')}
-            className="text-indigo-600 text-sm font-semibold hover:text-indigo-700 hover:gap-2 flex items-center gap-1 transition-all group"
+            className="text-indigo-600 dark:text-indigo-400 text-sm font-semibold hover:text-indigo-700 dark:hover:text-indigo-300 hover:gap-2 flex items-center gap-1 transition-all group"
           >
             Voir tout
             <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -109,20 +111,19 @@ interface QuickActionProps {
 
 const QuickAction = ({ icon, label, onClick }: QuickActionProps) => {
   return (
-    <button
+    <RippleButton
       onClick={onClick}
-      className="group flex flex-col items-center gap-3 p-5 rounded-2xl hover:bg-gradient-to-br hover:from-indigo-50 hover:to-purple-50 active:scale-95 transition-all duration-300 hover-lift"
+      className="group flex flex-col items-center gap-3 p-5 rounded-2xl hover:bg-gradient-to-br hover:from-indigo-50 hover:to-purple-50 dark:hover:from-gray-700 dark:hover:to-gray-600 active:scale-95 transition-all duration-300 hover-lift w-full"
     >
       <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:shadow-colored-lg group-hover:scale-110 transition-all duration-300">
         {icon}
       </div>
-      <span className="text-sm font-semibold text-gray-900 group-hover:text-indigo-600 transition-colors">
+      <span className="text-sm font-semibold text-gray-900 dark:text-gray-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
         {label}
       </span>
-    </button>
+    </RippleButton>
   );
 };
-
 interface TransactionItemProps {
   transaction: Transaction;
 }

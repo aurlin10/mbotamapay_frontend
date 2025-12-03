@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { User as UserType, PaymentMethod } from '../types';
 import { mockPaymentMethods } from '../mocks/data';
+import { ThemeToggle } from './ThemeToggle';
 
 interface SettingsScreenProps {
   user: UserType;
@@ -22,16 +23,16 @@ export const SettingsScreen = ({ user, onBack, onLogout }: SettingsScreenProps) 
   const [activeTab, setActiveTab] = useState<'payment' | 'profile' | 'security'>('payment');
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
-      <div className="px-6 py-6 bg-white border-b border-gray-200">
+    <div className="min-h-screen bg-slate-50 dark:bg-gray-900 flex flex-col">
+      <div className="px-6 py-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center gap-4 mb-4">
           <button
             onClick={onBack}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 active:scale-95 transition-all"
+            className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white active:scale-95 transition-all"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
-          <h1 className="text-2xl font-bold text-gray-900">Paramètres</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Paramètres</h1>
         </div>
 
         <div className="flex gap-2 overflow-x-auto">
@@ -76,11 +77,10 @@ const TabButton = ({ icon, label, active, onClick }: TabButtonProps) => {
   return (
     <button
       onClick={onClick}
-      className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all active:scale-95 whitespace-nowrap ${
-        active
-          ? 'bg-indigo-600 text-white'
-          : 'bg-slate-100 text-gray-600 hover:bg-slate-200'
-      }`}
+      className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all active:scale-95 whitespace-nowrap ${active
+        ? 'bg-indigo-600 text-white'
+        : 'bg-slate-100 text-gray-600 hover:bg-slate-200'
+        }`}
     >
       {icon}
       {label}
@@ -126,15 +126,15 @@ const PaymentMethodsTab = () => {
         {methods.map((method) => (
           <div
             key={method.id}
-            className="bg-white rounded-xl p-4 flex items-center gap-4"
+            className="bg-white dark:bg-gray-800 rounded-xl p-4 flex items-center gap-4"
           >
             <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${getProviderColor(method.provider)}`}>
               <CreditCard className="w-6 h-6" />
             </div>
             <div className="flex-1">
-              <h4 className="font-semibold text-gray-900">{method.provider}</h4>
+              <h4 className="font-semibold text-gray-900 dark:text-white">{method.provider}</h4>
               <p className="text-sm text-gray-600">
-                {method.type === 'Card' ? 'Carte' : 'Mobile Money'} •••• {method.lastDigits}
+                <span className="text-gray-600 dark:text-gray-400">{method.type === 'Card' ? 'Carte' : 'Mobile Money'} •••• {method.lastDigits}</span>
               </p>
             </div>
             <button
@@ -157,16 +157,16 @@ const PaymentMethodsTab = () => {
 const ProfileTab = ({ user }: { user: UserType }) => {
   return (
     <div className="px-6 py-6">
-      <div className="bg-white rounded-xl p-6 mb-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 mb-6">
         <div className="flex items-center gap-4 mb-6">
           <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold text-2xl">
             {user.firstName?.[0] || 'U'}
           </div>
           <div>
-            <h3 className="text-xl font-bold text-gray-900">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
               {user.firstName} {user.lastName}
             </h3>
-            <p className="text-gray-600">{user.phone}</p>
+            <p className="text-gray-600 dark:text-gray-400">{user.phone}</p>
           </div>
         </div>
 
@@ -177,12 +177,12 @@ const ProfileTab = ({ user }: { user: UserType }) => {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-2">
           <CheckCircle className="w-5 h-5 text-green-600" />
-          <h3 className="font-semibold text-gray-900">Statut KYC</h3>
+          <h3 className="font-semibold text-gray-900 dark:text-white">Statut KYC</h3>
         </div>
-        <p className="text-sm text-gray-600 ml-8">
+        <p className="text-sm text-gray-600 dark:text-gray-400 ml-8">
           {user.kycLevel === 2 ? 'Vérification complète' : 'Vérification en cours'}
         </p>
       </div>
@@ -193,23 +193,25 @@ const ProfileTab = ({ user }: { user: UserType }) => {
 const SecurityTab = ({ onLogout }: { onLogout: () => void }) => {
   return (
     <div className="px-6 py-6">
-      <div className="bg-white rounded-xl divide-y divide-gray-200">
-        <button className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 active:scale-95 transition-all">
+      <div className="bg-white dark:bg-gray-800 rounded-xl divide-y divide-gray-200 dark:divide-gray-700">
+        <ThemeToggle />
+
+        <button className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700 active:scale-95 transition-all">
           <div className="flex items-center gap-3">
-            <Shield className="w-5 h-5 text-gray-600" />
+            <Shield className="w-5 h-5 text-gray-600 dark:text-gray-400" />
             <div className="text-left">
-              <h4 className="font-semibold text-gray-900">Code PIN</h4>
-              <p className="text-sm text-gray-600">Modifier votre code PIN</p>
+              <h4 className="font-semibold text-gray-900 dark:text-white">Code PIN</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Modifier votre code PIN</p>
             </div>
           </div>
         </button>
 
-        <button className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 active:scale-95 transition-all">
+        <button className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700 active:scale-95 transition-all">
           <div className="flex items-center gap-3">
-            <Shield className="w-5 h-5 text-gray-600" />
+            <Shield className="w-5 h-5 text-gray-600 dark:text-gray-400" />
             <div className="text-left">
-              <h4 className="font-semibold text-gray-900">Authentification biométrique</h4>
-              <p className="text-sm text-gray-600">Activer Touch ID / Face ID</p>
+              <h4 className="font-semibold text-gray-900 dark:text-white">Authentification biométrique</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Activer Touch ID / Face ID</p>
             </div>
           </div>
         </button>
@@ -250,11 +252,10 @@ const AddPaymentModal = ({ onClose }: { onClose: () => void }) => {
         <div className="space-y-3 mb-6">
           <button
             onClick={() => setType('Card')}
-            className={`w-full p-4 rounded-xl border-2 transition-all ${
-              type === 'Card'
-                ? 'border-indigo-600 bg-indigo-50'
-                : 'border-gray-200 bg-white'
-            }`}
+            className={`w-full p-4 rounded-xl border-2 transition-all ${type === 'Card'
+              ? 'border-indigo-600 bg-indigo-50'
+              : 'border-gray-200 bg-white'
+              }`}
           >
             <div className="flex items-center gap-3">
               <CreditCard className="w-6 h-6 text-indigo-600" />
@@ -267,11 +268,10 @@ const AddPaymentModal = ({ onClose }: { onClose: () => void }) => {
 
           <button
             onClick={() => setType('MobileMoney')}
-            className={`w-full p-4 rounded-xl border-2 transition-all ${
-              type === 'MobileMoney'
-                ? 'border-indigo-600 bg-indigo-50'
-                : 'border-gray-200 bg-white'
-            }`}
+            className={`w-full p-4 rounded-xl border-2 transition-all ${type === 'MobileMoney'
+              ? 'border-indigo-600 bg-indigo-50'
+              : 'border-gray-200 bg-white'
+              }`}
           >
             <div className="flex items-center gap-3">
               <CreditCard className="w-6 h-6 text-indigo-600" />

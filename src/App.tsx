@@ -1,4 +1,8 @@
 import { useState, useEffect } from 'react';
+import { Toaster, toast } from 'react-hot-toast';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { pageVariants, pageTransition } from './utils/animations';
 import { SplashScreen } from './components/SplashScreen';
 import { LoginScreen } from './components/LoginScreen';
 import { OTPScreen } from './components/OTPScreen';

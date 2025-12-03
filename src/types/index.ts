@@ -22,6 +22,16 @@ export interface PaymentMethod {
   lastDigits: string;
 }
 
+export type CategoryType =
+  | 'FOOD'
+  | 'TRANSPORT'
+  | 'SHOPPING'
+  | 'BILLS'
+  | 'ENTERTAINMENT'
+  | 'HEALTH'
+  | 'TRANSFER'
+  | 'OTHER';
+
 export interface Transaction {
   id: string;
   amount: number;
@@ -32,6 +42,7 @@ export interface Transaction {
   source: string;
   date: string;
   status: "completed" | "pending" | "failed";
+  category?: CategoryType;
 }
 
 export interface Contact {

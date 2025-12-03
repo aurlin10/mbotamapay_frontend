@@ -20,15 +20,15 @@ export const HistoryScreen = ({ onBack }: HistoryScreenProps) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col">
-      <div className="px-6 py-6 bg-white border-b border-gray-100 shadow-sm">
+      <div className="px-6 py-6 bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 shadow-sm">
         <div className="flex items-center gap-4 mb-5">
           <button
             onClick={onBack}
-            className="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900 active:scale-95 transition-all"
+            className="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-gray-900 dark:hover:text-white active:scale-95 transition-all"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
-          <h1 className="text-2xl font-bold text-gray-900 flex-1">Historique</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex-1">Historique</h1>
         </div>
 
         <div className="relative mb-5">
@@ -36,7 +36,7 @@ export const HistoryScreen = ({ onBack }: HistoryScreenProps) => {
           <input
             type="text"
             placeholder="Rechercher une transaction..."
-            className="w-full pl-13 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white transition-all font-medium"
+            className="w-full pl-13 pr-4 py-3.5 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white dark:focus:bg-gray-600 transition-all font-medium text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
           />
         </div>
 
@@ -76,7 +76,7 @@ export const HistoryScreen = ({ onBack }: HistoryScreenProps) => {
             return (
               <div
                 key={transaction.id}
-                className="stagger-item bg-white rounded-2xl p-5 hover:shadow-xl hover:-translate-y-1 transition-all border border-gray-100"
+                className="stagger-item bg-white dark:bg-gray-800 rounded-2xl p-5 hover:shadow-xl hover:-translate-y-1 transition-all border border-gray-100 dark:border-gray-700"
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
                 <div className="flex items-start gap-4">
@@ -97,8 +97,8 @@ export const HistoryScreen = ({ onBack }: HistoryScreenProps) => {
                         </p>
                         <span
                           className={`inline-block px-2.5 py-1 rounded-full text-xs font-semibold mt-1 ${transaction.status === 'completed'
-                              ? 'bg-green-100 text-green-700'
-                              : 'bg-yellow-100 text-yellow-700'
+                            ? 'bg-green-100 text-green-700'
+                            : 'bg-yellow-100 text-yellow-700'
                             }`}
                         >
                           {transaction.status === 'completed' ? 'Complété' : 'En attente'}
@@ -148,8 +148,8 @@ const FilterButton = ({ active, onClick, label }: FilterButtonProps) => {
     <button
       onClick={onClick}
       className={`px-5 py-2.5 rounded-xl font-semibold text-sm transition-all active:scale-95 ${active
-          ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-colored'
-          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+        ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-colored'
+        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
         }`}
     >
       {label}

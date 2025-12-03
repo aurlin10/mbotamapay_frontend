@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Upload, CheckCircle, Camera, CreditCard } from 'lucide-react';
+import { Upload, CheckCircle, Camera, CreditCard, ArrowLeft } from 'lucide-react';
 
 interface KYCLevel2Props {
   onComplete: () => void;
+  onBack: () => void;
 }
 
-export const KYCLevel2 = ({ onComplete }: KYCLevel2Props) => {
+export const KYCLevel2 = ({ onComplete, onBack }: KYCLevel2Props) => {
   const [uploads, setUploads] = useState({
     idFront: false,
     idBack: false,
@@ -21,7 +22,15 @@ export const KYCLevel2 = ({ onComplete }: KYCLevel2Props) => {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
       <div className="px-6 py-6 bg-white border-b border-gray-200">
-        <h1 className="text-2xl font-bold text-gray-900">Vérification d'identité</h1>
+        <div className="flex items-center gap-4 mb-4">
+          <button
+            onClick={onBack}
+            className="p-2 -ml-2 rounded-full hover:bg-gray-100 transition-colors"
+          >
+            <ArrowLeft className="w-6 h-6 text-gray-900" />
+          </button>
+          <h1 className="text-2xl font-bold text-gray-900">Vérification d'identité</h1>
+        </div>
         <p className="text-gray-600 mt-1">Étape 2 sur 2</p>
         <div className="mt-4 flex gap-2">
           <div className="h-2 flex-1 bg-indigo-600 rounded-full"></div>
@@ -89,11 +98,10 @@ const UploadCard = ({ title, icon, uploaded, onUpload }: UploadCardProps) => {
   return (
     <button
       onClick={onUpload}
-      className={`w-full p-5 rounded-xl border-2 transition-all active:scale-95 ${
-        uploaded
+      className={`w-full p-5 rounded-xl border-2 transition-all active:scale-95 ${uploaded
           ? 'bg-green-50 border-green-500'
           : 'bg-white border-gray-300 hover:border-indigo-400'
-      }`}
+        }`}
     >
       <div className="flex items-center gap-4">
         <div className={`p-3 rounded-xl ${uploaded ? 'bg-green-100' : 'bg-gray-100'}`}>

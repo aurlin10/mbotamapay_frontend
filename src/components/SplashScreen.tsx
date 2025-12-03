@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { CreditCard } from 'lucide-react';
 
 interface SplashScreenProps {
@@ -5,7 +6,10 @@ interface SplashScreenProps {
 }
 
 export const SplashScreen = ({ onComplete }: SplashScreenProps) => {
-  setTimeout(onComplete, 2000);
+  useEffect(() => {
+    const timer = setTimeout(onComplete, 2000);
+    return () => clearTimeout(timer);
+  }, [onComplete]);
 
   return (
     <div className="min-h-screen bg-gradient-animated flex items-center justify-center overflow-hidden relative">

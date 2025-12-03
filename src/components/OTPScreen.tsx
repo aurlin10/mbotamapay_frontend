@@ -2,12 +2,13 @@ import { useState, useRef, useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
 
 interface OTPScreenProps {
-  phone: string;
+  phoneNumber: string;
   onVerify: (otp: string) => void;
+  onResend: () => void;
   onBack: () => void;
 }
 
-export const OTPScreen = ({ phone, onVerify, onBack }: OTPScreenProps) => {
+export const OTPScreen = ({ phoneNumber, onVerify, onResend, onBack }: OTPScreenProps) => {
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -56,7 +57,7 @@ export const OTPScreen = ({ phone, onVerify, onBack }: OTPScreenProps) => {
               Code de vérification
             </h1>
             <p className="text-gray-600">
-              Entrez le code envoyé au {phone}
+              Entrez le code envoyé au {phoneNumber}
             </p>
           </div>
 
@@ -76,7 +77,10 @@ export const OTPScreen = ({ phone, onVerify, onBack }: OTPScreenProps) => {
             ))}
           </div>
 
-          <button className="w-full text-indigo-600 font-medium hover:text-indigo-700 active:scale-95 transition-all">
+          <button
+            onClick={onResend}
+            className="w-full text-indigo-600 font-medium hover:text-indigo-700 active:scale-95 transition-all"
+          >
             Renvoyer le code
           </button>
         </div>

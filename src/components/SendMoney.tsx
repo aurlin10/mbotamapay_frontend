@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ArrowLeft, User, DollarSign, CreditCard, CheckCircle } from 'lucide-react';
 import { Contact, PaymentMethod } from '../types';
 import { mockContacts, mockPaymentMethods } from '../mocks/data';
+import { RippleButton } from './RippleButton';
 
 interface SendMoneyProps {
   onBack: () => void;
@@ -30,16 +31,16 @@ export const SendMoney = ({ onBack, onComplete }: SendMoneyProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col">
-      <div className="px-6 py-6 bg-white border-b border-gray-100 shadow-sm">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-gray-900 dark:to-gray-800 flex flex-col">
+      <div className="px-6 py-6 bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 shadow-sm">
         <div className="flex items-center gap-4 mb-5">
           <button
             onClick={step === 1 ? onBack : () => setStep((step - 1) as 1 | 2 | 3 | 4)}
-            className="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900 active:scale-95 transition-all"
+            className="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-gray-900 dark:hover:text-white active:scale-95 transition-all"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
-          <h1 className="text-2xl font-bold text-gray-900 flex-1">Envoyer de l'argent</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex-1">Envoyer de l'argent</h1>
         </div>
         <div className="flex gap-2">
           {[1, 2, 3, 4].map((s) => (
@@ -104,21 +105,21 @@ interface RecipientStepProps {
 const RecipientStep = ({ contacts, onSelect }: RecipientStepProps) => {
   return (
     <div className="px-6 py-6">
-      <h2 className="text-lg font-bold text-gray-900 mb-5">Sélectionner un destinataire</h2>
+      <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-5">Sélectionner un destinataire</h2>
       <div className="space-y-3">
         {contacts.map((contact, index) => (
           <button
             key={contact.id}
             onClick={() => onSelect(contact)}
-            className="stagger-item w-full bg-white rounded-2xl p-5 flex items-center gap-4 hover:shadow-xl hover:-translate-y-1 active:scale-95 transition-all border border-gray-100 hover:border-indigo-200"
+            className="stagger-item w-full bg-white dark:bg-gray-800 rounded-2xl p-5 flex items-center gap-4 hover:shadow-xl hover:-translate-y-1 active:scale-95 transition-all border border-gray-100 dark:border-gray-700 hover:border-indigo-200 dark:hover:border-indigo-600"
             style={{ animationDelay: `${index * 0.05}s` }}
           >
             <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-lg">
               {contact.name[0]}
             </div>
             <div className="flex-1 text-left">
-              <h3 className="font-bold text-gray-900 text-base">{contact.name}</h3>
-              <p className="text-sm text-gray-500 font-medium">{contact.phone}</p>
+              <h3 className="font-bold text-gray-900 dark:text-white text-base">{contact.name}</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">{contact.phone}</p>
             </div>
           </button>
         ))}
@@ -149,10 +150,10 @@ const AmountStep = ({ amount, onAmountChange, onNext }: AmountStepProps) => {
           <div className="flex items-center justify-center gap-2 mb-2">
             <DollarSign className="w-8 h-8 text-gray-400" />
           </div>
-          <div className="text-5xl font-bold text-gray-900 mb-2">
-            {amount || '0'} <span className="text-3xl text-gray-500">XAF</span>
+          <div className="text-5xl font-bold text-gray-900 dark:text-white mb-2">
+            {amount || '0'} <span className="text-3xl text-gray-500 dark:text-gray-400">XAF</span>
           </div>
-          <p className="text-gray-500">Entrez le montant</p>
+          <p className="text-gray-500 dark:text-gray-400">Entrez le montant</p>
         </div>
       </div>
 
@@ -162,19 +163,19 @@ const AmountStep = ({ amount, onAmountChange, onNext }: AmountStepProps) => {
             <button
               key={key}
               onClick={() => handleNumberClick(key)}
-              className="h-16 bg-white rounded-2xl font-bold text-xl text-gray-900 hover:bg-gradient-to-br hover:from-indigo-50 hover:to-purple-50 hover:shadow-lg active:scale-95 transition-all border border-gray-100"
+              className="h-16 bg-white dark:bg-gray-800 rounded-2xl font-bold text-xl text-gray-900 dark:text-white hover:bg-gradient-to-br hover:from-indigo-50 hover:to-purple-50 dark:hover:from-gray-700 dark:hover:to-gray-600 hover:shadow-lg active:scale-95 transition-all border border-gray-100 dark:border-gray-700"
             >
               {key === 'del' ? '⌫' : key}
             </button>
           ))}
         </div>
-        <button
+        <RippleButton
           onClick={onNext}
           disabled={!amount || parseFloat(amount) === 0}
           className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-2xl font-bold text-lg hover:shadow-colored-lg hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
         >
           Continuer
-        </button>
+        </RippleButton>
       </div>
     </div>
   );
@@ -286,13 +287,13 @@ const ConfirmationStep = ({
         </div>
       </div>
 
-      <button
+      <RippleButton
         onClick={onConfirm}
         className="w-full bg-indigo-600 text-white py-4 rounded-xl font-semibold text-lg flex items-center justify-center gap-2 hover:bg-indigo-700 active:scale-95 transition-all"
       >
         <CheckCircle className="w-5 h-5" />
         Confirmer le transfert
-      </button>
+      </RippleButton>
     </div>
   );
 };
