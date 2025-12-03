@@ -25,7 +25,7 @@ type Screen =
   | 'settings'
   | 'success';
 
-function App() {
+function AppContent() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('splash');
   const [user, setUser] = useState<User | null>(null);
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -89,11 +89,6 @@ function App() {
     setCurrentScreen('dashboard');
   };
 
-  const handleLogout = () => {
-    setUser(null);
-    setCurrentScreen('login');
-  };
-
   const renderScreen = () => {
     switch (currentScreen) {
       case 'splash':
@@ -103,46 +98,97 @@ function App() {
       case 'otp':
         return (
           <OTPScreen
-            phone={phoneNumber}
+            phoneNumber={phoneNumber}
             onVerify={handleOTPVerify}
+            onResend={() => toast.success('Code renvoyé !')}
             onBack={() => setCurrentScreen('login')}
           />
         );
       case 'kyc1':
         return <KYCLevel1 onComplete={handleKYC1Complete} />;
       case 'kyc2':
-        return <KYCLevel2 onComplete={handleKYC2Complete} />;
+        return <KYCLevel2 onComplete={handleKYC2Complete} onBack={() => setCurrentScreen('kyc1')} />;
       case 'kycVerifying':
         return <KYCVerifying onComplete={handleKYCVerified} />;
       case 'dashboard':
-        return user ? (
-          <Dashboard user={user} onNavigate={setCurrentScreen} />
-        ) : null;
-      case 'send':
         return (
-          <SendMoney
-            onBack={() => setCurrentScreen('dashboard')}
-            onComplete={handleSendComplete}
+          <Dashboard
+            user={user!}
+            onNavigate={(screen) => setCurrentScreen(screen as Screen)}
           />
         );
+      case 'send':
+        return <SendMoney onBack={() => setCurrentScreen('dashboard')} onComplete={handleSendComplete} />;
       case 'history':
         return <HistoryScreen onBack={() => setCurrentScreen('dashboard')} />;
       case 'settings':
-        return user ? (
+        return (
           <SettingsScreen
-            user={user}
+            user={user!}
             onBack={() => setCurrentScreen('dashboard')}
-            onLogout={handleLogout}
+            onLogout={() => {
+              setUser(null);
+              setCurrentScreen('login');
+            }}
           />
-        ) : null;
+        );
       case 'success':
         return <SuccessScreen onComplete={handleSuccessComplete} />;
       default:
-        return <SplashScreen onComplete={() => setCurrentScreen('login')} />;
+        return null;
     }
   };
 
-  return <div className="antialiased">{renderScreen()}</div>;
+
+  return (
+    <div className="antialiased">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentScreen}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          variants={pageVariants}
+          transition={pageTransition}
+          className="w-full"
+        >
+          {renderScreen()}
+        </motion.div>
+      </AnimatePresence>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+            borderRadius: '12px',
+            padding: '16px',
+          },
+          success: {
+            iconTheme: {
+              primary: '#10b981',
+              secondary: '#fff',
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: '#ef4444',
+              secondary: '#fff',
+            },
+          },
+        }}
+      />
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
+  );
 }
 
 export default App;
